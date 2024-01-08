@@ -1,0 +1,176 @@
+Aula 26 - Configurando o firewall para liberar e bloquear portas especificas do Sql Server
+
+No Sql Server para se conectar de uma outra máquina na instância, podemos conectar digitando o nome do servidor ou o ip: e a porta que foi configurado no configuration manager na parte do tcp.
+
+Porém provavelmente o firewall vai estar ativo por conta de proteção e para configurar as portas temos que fazer da seguinte forma.
+
+digitar na pesquisa do windows e digitar firewall, clicar do lado esquerdo em advanced settings -> do lado esquerdo novamente em inbound rules -> e agora do lado direito clicar em New Rules -> clicar em port -> deixar marcado em cima em TCP -> no campo de baixo vamos definir as portas que queremos liberar, ex: 1433,1435 next -> podemos marcar para todas as conexões ou outras opções que vai ser explicado em outras aulas next -> na próxima tela vamos definir se vamos abrir esse acesso a essa porta para redes publicas, privadas e publicas next -> Na próxima tela vamos criar um nome para essa nova regra, Podemos colocar exemplo sqlserver inbound next e vai ser criado a regra.
+
+Após criar a regra, podemos adicionar algumas coisas novas nas regras, por exemplo na guia Remote Computers, podemos definir as máquinas que podem efetuar o acesso remoto.
+
+Aula 27 - Visão geral das bases de dados de Sistema do SQL
+
+-> Master
+
+- A base mais importante do sql server é a master, no caso essa base sempre é bom fazer backup diariamente porquê ela é a principal.
+
+todos os logins da instancia ficam nessa master também.
+
+todo o coração do ambiente da instancia é controlado pela master, as próprias configurações também
+
+o arquivo da master fica em c:\program files\Microsoft SQL Server\MSSQL 15 MSSQL\SERVER\DATA master.mdf
+
+o de log se foi separado fica no mesmo caminho mudando a unidade e 
+
+- mastlog.ldf
+
+você também pode criar um programa dentro da master um programa, chamado stored procedures dentro de programmability, que tudo que você colocar dentro das instruções ele vai executar automaticamente logo que iniciar o serviço do sql.
+
+-> Model
+
+Base de dados de modelo, serve de modelo para outras bases de dados. Todas estruturas de tabelas internas, todos os parametros basicos estão na model. Por exemplo se você cria uma procedure no banco, quando for criado um novo banco de dados vai ser criado junto com essa procedure, um outro exemplo, quando eu crio uma base da dados com 8mb o próximo banco de dados novo que ser criado vai ter 8mb também. 
+
+é optativo se é necessário fazer backup ou não
+
+
+-> MSDB
+
+é uma outra base muito importante, ela é utilizada pelo sql server agent, que usa o backup automatico, que roda os jobs também
+
+nesse caso é importante fazer o backup.
+
+->  Tempdb
+
+é uma base fundamental para o dia a dia, tem impacto na performance do sqlserver, porque todas as bases utilizam a tempdb, as vezes quando não tem memória suficiente com alguns comandos, por exemplo um group by vai usar a tempdb
+
+colocar a tempdb em um disco rápido para ganhar performance
+
+Aula 28 - OverView sobre criação de uma base de dados
+
+Podemos criar o banco de dados da forma que aprendemos na aula anterior, clicando com o botão direito no databases na instancia e clicar em "new database" ou podemos também clicar em new query, e dar o comando, create database bancoteste2 o banco teste 2 é o nome do banco que está sendo criado.
+
+aula 29 - Explicando Wal (Log File)
+
+Wal - Write Ahead Log
+
+No Sql a gravação funciona da seguinte forma, vamos supor que temos as seguintes instruções 
+
+Insert into cliente(nome)values('ana')
+Insert into cliente(nome)values('jose')
+insert into cliente(nome)values('pedro')
+
+quando digitamos esses comandos ele vai fazer a seguinte sequência até chegar a gravar os dados
+
+-> vai para a memória do computador
+-> logo em seguida vai para um arquivo chamado log file
+-> e no final é gravado no Data File que é o banco de dados mesmo
+
+porém existe alguns detalhes, justamente por isso é criado o log File
+
+Insert into cliente(nome)values('ana')
+COMMIT
+Insert into cliente(nome)values('jose')
+insert into cliente(nome)values('pedro')
+
+se observamos cada instrução no SQL quando é escrito, automaticamente existe um COMMIT no final para ser gravado a instrução primeiro no log file e depois no data file, isso auxilia nas questões por exemplo de uma queda de energia, o que foi commitado até antes da queda já vai estar dentro do log file, porém não vai estar mais na memória.
+
+obs: existe uma espécie de robo que se chama checkpoint que verifica de 1 em 1 minuto o que está na memória e no log file o que está commitado e o que estiver commitado ele vai fazer a gravação no disco.
+
+
+Por esse motivo é importante ter uma máquina com bastante memória para fazer a utilização do SQL Server, porquê o sql server utiliza muito a memória para fazer seus processamentos de dados, quanto mais memória tiver mais rápido vai ser o processamento e as buscas no caso.
+
+Porém vamos imaginar que estamos trabalhando com transações bancárias, um exemplo um valor sai de uma tabela e por falta de energia não vai para a outra e se perde a informação, o valor ficaria nem em uma conta e não iria nem para a outra conta.
+
+para isso podemos usar a seguinte instrução para só fazer as transações por blocos, para não ocorrer esse tipo de erro, ou ele executa a instrução inteira ou ele não executa nada
+
+Begin Tran
+
+Insert into cliente(nome)values('ana')
+Insert into cliente(nome)values('jose')
+insert into cliente(nome)values('pedro')
+
+commit tran
+
+obs: Esse comando acima ele executa, porém caso esqueça de executar a ultima linha que é o commit o sql server vai ficar aguardando esse comando e vai travar esse banco cliente, porquê enquanto não houver um commit, não é possível fazer mais nenhuma consulta no banco, caso alguma outra pessoa for dar por exemplo um select nome from cliente vai ficar tentando retornar algo mais não vai conseguir porquê o banco vai estar travado. Então é muito importante caso for utilizar o begin tran não esquecer no final da linha dar o commit.
+
+O arquivo de Log é importante de recuperação do backup quando está no modo full ele consegue vasculhar no log o dia e a data para recuperar e inclusive faz o backup no log, porém se deixar marcado no modo simple, o checkpoint quando vai fazer a analise de 1 em 1 minuto ele faz a limpeza do log file. essa operação chama trunckate log
+
+------------------------------------------------------------
+
+Aula 30 - Criando Banco de Dados em vários files e filegroups de forma gráfica
+
+Quando for criar uma nova base de dados, sempre lembrar que na parte do owner sempre colocar o usuário sa ou o usuário master, se você colocar com o seu usuário vai ficar vinculado ao seu usuário e não é uma boa prática na empresa fazer isso porquê você sair da empresa e vai ficar preso no seu usuário essa base de dados
+
+Uma coisa importante é o initial size que é o tamanho do banco de dados e no maxsize quando clica nas reticências quando clica tem a opção Enable Autogrowth que é o auto crescimento do banco de dados, é importante deixar marcado, porquê caso não esteja o banco de dados quando chegar no maxsize ele não vai mais permitir inserção de dados. Na mesma tela existem 2 opções para você escolher o crescimento pode ser em porcentagem ou em megabytes e também no maximum file size o ideal é deixar marcado como unlimited
+
+Podemos também separar uma tabela em um disco diferente também , para fazer isso vamos clicar com o botão direito na tabela e clicar em propriedades, do lado esquerdo clicamos na opção filegroups e em add Filegroup, e vamos dar o nome para esse filegroup. Após isso no select a page vamos em add e vamos dar o nome para essa nova tabela e lá agora no filegroup vai aparecer o grupo que nós criamos e conseguimos já direcionar essa tabela nova em uma outra unidade e após isso posso dar ok
+
+Agora clicamos em tables com o botão direito, e agora quando criarmos a nova tabela temos a opção além do nome e o tipo de dados que vai receber, do lado direito temos a opção para setar o filegroup, caso não tivessemos feito isso ele não iria apresentar a opção do grupo novo que nós criamos, apenas ia aparecer a opção Primary
+
+Um dos bons motivos de se fazer essa separação 
+
+--------------------------------------------------------------
+
+Aula 31 - Criando Banco de dados em vários files e filegroups utilizando a linguagem SQL
+
+Na aula anterior, criamos filesgroups graficamente, porém nessa aula podemos fazer a criação via comando, um exemplo dos bancos criados como fica a query para criação do banco de dados:
+
+CREATE DATABASE (CLIENTES)
+
+ON PRIMARY (QUER DIZER QUE VAI SER DO FILEGROUP PRIMARIO)
+
+(NAME = N'CLIENTES', FILENAME = N'P:\Data\CLIENTES.mdf',SIZE = 10204KB,MAXSIZE = 1024000KB,FILEGROWTH = 102400KB),
+(NAME = N'clientes2',FILENAME = N'P:\DATA\clientes2.ndf',SIZE=10204KB,MAXSIZE = UNLIMITED, FILEGROWTH = 10%),
+
+e outros comandos mais a frente só para ilustras, o que essa aula explica é que podemos fazer a mesma coisa que fizemos graficamente via linha de comando no SQL.
+
+uma observação, já estime o quanto vai precisar de espaço do banco de dados daqui a 6 meses para frente.
+
+E a importância do filegroup por exemplo, se eu der o comando 
+
+CREATE TABLE X no filegroup no grupo primario por exemplo, vai ser criado essa tabela X dentro de todas as databases que estão nesse filegroup
+
+comando para deletar a base de dados:
+
+DROP DATABASE X
+
+
+X = o nome da database
+-------------------------------------------------------------------------
+
+Aula 32 - Criando nossa primeira tabela
+
+Criando graficamente a tabela
+
+- Databases
+ - Clientes
+  - Tables, botão direito em tables, new -> tables
+   - Vai abrir a tela para digitar o nome da coluna, o tipo de dados que a coluna vai receber e o limite do tamanho do campo, Quando definir a quantidade do tamanho do campo é importante observar se vai ser utilizado tudo isso mesmo, porquê um exemplo se você for definir um campo de 30 caracteres, ele vai usar na memória o equivalente a 30 caracteres mesmo que só utilize no máximo 10, o campo allow nulls quando está marcado permite campo vazio, caso não esteja marcado não vai permitir inserir dados nulos
+
+
+O Sql Server é um dos bancos relacionais, o que quer dizer isso? quer dizer que você tem tabelas que se relacionam um com o outro, por exemplo um site de compras, quando o cliente efetua o cadastro dele com nome cpf, não quer dizer que na mesma tabela tenha que ter os produtos. Por isso podemos separar as tabelas e relacionar o dos clientes com o dos produtos separando assim melhor o nosso banco de dados e também deixando melhor estruturado o mesmo.
+
+Via comando ficaria dessa forma:
+
+CREATE TABLE [dbo].[dadosbascis](
+	[idcliente] [int] NOT NULL,
+	[nomecliente] [varchar](30) NOT NULL,
+	[endereco] [varchar](50) NOT NULL,
+	[idade] [int] NULL,
+ CONSTRAINT [PK_dadosbascis] PRIMARY KEY CLUSTERED
+(
+	tem o restante dos comandos porém não tem necessidade de anotar no momento, porém o básico para criar a tabela e essas colunas é essa parte. Inclusive com a primary key.
+
+---------------------------------------------------------------------------
+
+Aula 33 - Criando nossa primeira tabela, continuação ....
+
+Views - Visão de dados sobre as tabelas, com ela podemos fazer "visões" já pré defenidas, e conseguimos por exemplo pedir para essa view já trazer informações por exemplo por ordem crescente, ou também podemos fazer o filtro para trazer com o nome maria, claro que usamos para deixar rotinas de views mais complexas no caso, porém podemos deixar já pré programado uma view com os filtros que nós queremos.
+
+----------------------------------------------------------------------------
+
+Aula 34 - Modelagem de dados, conceitos básicos
+
+Essa aula, vamos precisar executar scripts, então no caso tem que ser feito em casa mesmo no próprio banco de dados.
+
+

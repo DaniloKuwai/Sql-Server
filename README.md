@@ -1,2 +1,2 @@
 # Sql-Server
-Estudo Curs Sql Server
+Estudo Curso Sql Server
