@@ -109,6 +109,8 @@ Nessa Aula Vamos criar um banco chamado CLIENTES
 
 Banco Criado
 
+dar continuidade nessa parte de criação de banco de dados.
+
 CLIENTES | FILEGROUP: PRIMARY |
 
 Quando for criar uma nova base de dados, sempre lembrar que na parte do owner sempre colocar o usuário sa ou o usuário master, se você colocar com o seu usuário vai ficar vinculado ao seu usuário e não é uma boa prática na empresa fazer isso porquê você sair da empresa e vai ficar preso no seu usuário essa base de dados
