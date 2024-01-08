@@ -99,6 +99,18 @@ O arquivo de Log é importante de recuperação do backup quando está no modo f
 
 Aula 30 - Criando Banco de Dados em vários files e filegroups de forma gráfica
 
+----*------------------*-------------------------
+
+Nessa Aula Vamos criar um banco chamado CLIENTES
+
+478
+
+----*------------------*-------------------------
+
+Banco Criado
+
+CLIENTES | FILEGROUP: PRIMARY |
+
 Quando for criar uma nova base de dados, sempre lembrar que na parte do owner sempre colocar o usuário sa ou o usuário master, se você colocar com o seu usuário vai ficar vinculado ao seu usuário e não é uma boa prática na empresa fazer isso porquê você sair da empresa e vai ficar preso no seu usuário essa base de dados
 
 Uma coisa importante é o initial size que é o tamanho do banco de dados e no maxsize quando clica nas reticências quando clica tem a opção Enable Autogrowth que é o auto crescimento do banco de dados, é importante deixar marcado, porquê caso não esteja o banco de dados quando chegar no maxsize ele não vai mais permitir inserção de dados. Na mesma tela existem 2 opções para você escolher o crescimento pode ser em porcentagem ou em megabytes e também no maximum file size o ideal é deixar marcado como unlimited
@@ -107,7 +119,10 @@ Podemos também separar uma tabela em um disco diferente também , para fazer is
 
 Agora clicamos em tables com o botão direito, e agora quando criarmos a nova tabela temos a opção além do nome e o tipo de dados que vai receber, do lado direito temos a opção para setar o filegroup, caso não tivessemos feito isso ele não iria apresentar a opção do grupo novo que nós criamos, apenas ia aparecer a opção Primary
 
-Um dos bons motivos de se fazer essa separação 
+Um dos bons motivos de se fazer essa separação.
+
+ 
+
 
 --------------------------------------------------------------
 
