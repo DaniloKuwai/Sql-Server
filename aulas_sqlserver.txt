@@ -99,19 +99,42 @@ O arquivo de Log é importante de recuperação do backup quando está no modo f
 
 Aula 30 - Criando Banco de Dados em vários files e filegroups de forma gráfica
 
-----*------------------*-------------------------
-
 Nessa Aula Vamos criar um banco chamado CLIENTES
 
 478
-
-----*------------------*-------------------------
 
 Banco Criado
 
 dar continuidade nessa parte de criação de banco de dados.
 
-CLIENTES | FILEGROUP: PRIMARY |
+CLIENTES | ROWS Data | FILEGROUP: PRIMARY | 100 MB | autogrowth:100 mb unlimited to 1000mb
+clientes2 | ROWS Data | FILEGROUP:PRIMARY | 10 MB  | autogrowth: 64mb unlimited
+
+Porém antes vamos criar outro filegroup para separar essa tabela em um grupo diferente
+
+Vamos com o botão direito no banco clientes -> propriedades -> clicar do lado esquerdo em filegroups -> vamos criar o filegroup clientesmuitoimportantes
+
+Após esse procedimento de um novo filegroup vamos criar uma nova base de dados que vai ficar separado em outro disco (Colocar qualquer um livre)
+
+para criar, clicar com o botão direito em clientes mesmo propriedades e vou em files e vou clicar em add, vou criar um novo com os seguintes dados:
+
+clienteimportante | ROWS Data (vai receber dados) | clientesmuitoimportantes | 14mb | 64mb unlimited | e colocar em qualquer outro disco por conta do conceito
+
+Após criar esses 3 bancos vamos criar uma tabela:
+
+-> Clientes
+ -> Tables
+  ->Botão direito -> new Tables
+
+mudar do lado direito para outro grupo, quando salvar a tabela vai ser salvo em outro filegroup em outro disco.
+
+
+Column Name | Data Type | Allow Nulls
+nome          nchar(10)       v
+
+clicar no x para salvar e deixar com o nome que está mesmo ir dando ok para criar	
+	
+
 
 Quando for criar uma nova base de dados, sempre lembrar que na parte do owner sempre colocar o usuário sa ou o usuário master, se você colocar com o seu usuário vai ficar vinculado ao seu usuário e não é uma boa prática na empresa fazer isso porquê você sair da empresa e vai ficar preso no seu usuário essa base de dados
 
