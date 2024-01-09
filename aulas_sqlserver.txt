@@ -213,4 +213,4 @@ Aula 34 - Modelagem de dados, conceitos básicos
 
 Essa aula, vamos precisar executar scripts, então no caso tem que ser feito em casa mesmo no próprio banco de dados.
 
-
+-----------------------------------------------------------------------------
