@@ -247,7 +247,26 @@ outra questão de ser relacional é por conta da relação no banco de dados, po
 -----------------------------------------------------------------------------
 aula 35 - Modelagem de dados e Ferramenta CASE
 
+um outro detalhe no banco de dados relacionais vamos supor que temos o seguinte desenho de banco com as tabelas
 
+uma tabela de clientes, outra tabela de pedidos e uma outra tabela de produtos. vamos supor que em um pedido nós possuimos vários produtos até ai tudo bem, porém um produto, ele pode participar de vários pedidos? pode claro , porém no meio temos que ter uma tabela associativa entre o banco de pedidos e entre o banco de produtos.
 
+para ilustrar melhor segue o link abaixo do modelo que estamos falando
 
+https://drive.google.com/file/d/1L5WgnWXsEKICe7WJKTuG_0lYfyn9kPDe/view?usp=drive_link
 
+na foto temos as 3 tabelas criadas, porém precisamos da tabela auxiliar itens_pedidos para conseguir fazer a relação entre a tabelas produtos e as pedidos.
+
+uma ferramenta legal para se utilizar para modelagem de dados é o SQL Power Architect
+
+após baixar essa ferramenta gratuita vamos iniciar o uso
+
+a instalação é simples vai dando um next até o final. Após isso ele vai falar que não localizou nenhuma base criada, clica em create e vai criar já para começar a utilização.
+
+dentro do programa, no campo central vamos criar nossa primeira tabela, clicando com o botão direito no campo vazio e clicar em new table
+
+vamos criar uma tabela funcionario
+
+vai ficar com as seguintes configurações:
+
+https://drive.google.com/file/d/1L5WgnWXsEKICe7WJKTuG_0lYfyn9kPDe/view?usp=drive_link
