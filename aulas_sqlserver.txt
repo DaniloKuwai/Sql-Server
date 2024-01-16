@@ -211,10 +211,43 @@ Views - Visão de dados sobre as tabelas, com ela podemos fazer "visões" já pr
 
 Aula 34 - Modelagem de dados, conceitos básicos
 
-Essa aula, vamos precisar executar scripts, então no caso tem que ser feito em casa mesmo no próprio banco de dados.
+ 
+O conceito de banco de dados relacional SQL,ORACLE entre outros é fácil de se entender quando é comparado com o excel também.
 
+Por exemplo
+
+para dados poderiam ser utilizado um excel por exemplo em uma venda
+
+colocariamos os seguintes itens:
+
+nome  produto  valor  endereco
+
+ana   maça     1      x
+
+porém agora vamos supor que a ana vai comprar mais produtos, teriamos que digitar no excel novamente os mesmos dados
+
+nome  produto  valor  endereco
+
+ana   maça     1      x
+ana   pessego  1      x
+ana   banana   1      x
+ana   pera     1      x
+
+nesse caso ia ficar uma planilha gigantesca, e outro problema que poderia existir é se a mesma ana cadastrasse seu nome com uma letra abreviada por exemplo
+
+ana souza ou ana s
+
+no excel não ia dar para saber quem é a ana correta e também poderia ocorrer da ana estar fazendo o mesmo pedido e ir para uma ana diferente.
+
+por esse motivo que existe o banco de dados relacional, e no banco de dados relacional também existe o primary key, para não dar problema de duplicidade, podemos colocar por exemplo o um cpf vinculado com nome como uma primary key.
+
+e uma primary key não permiti dados duplicados na inserção dos dados. Essa é uma das vantagens de se utilizar um banco de dados e outra questão é a quantidade de dados no excel ele tem um limite, banco de dados não tem.
+
+outra questão de ser relacional é por conta da relação no banco de dados, podemos criar tabelas específicas só de clientes e uma só de produto por exemplo e relacionar as duas, não sendo necessário criar diversas linhas com a mesma informação.
 -----------------------------------------------------------------------------
+aula 35 - Modelagem de dados e Ferramenta CASE
 
-Aula 35 - Criando Banco de Dados em vários files e filegroups utilizando a linguagem SQL
+
+
 
 
