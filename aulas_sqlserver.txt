@@ -270,3 +270,68 @@ vamos criar uma tabela funcionario
 vai ficar com as seguintes configurações:
 
 https://drive.google.com/file/d/1L5WgnWXsEKICe7WJKTuG_0lYfyn9kPDe/view?usp=drive_link
+
+após criar nossa tabela, vamos criar a primeira coluna, idfuncionario, clicamos com o botão direito na tabela funcionario e new column
+
+vamos definir com os seguintes dados:
+
+https://drive.google.com/file/d/1jvCCMUYIOpbArdC8T-QbQiSCg_Blusmt/view?usp=drive_link
+
+ele vai ser uma primary key e com o autoincrement ativo, ai assim que tiver um primeiro registro automaticamente vai criar um novo id somando mais 1
+
+vamos criar uma nova coluna chamada nomefuncionario, ele vai ser um varchar de 50 posições que não aceita nulo, conforme print a baixo, vamos fazer o mesmo caminho para criar a coluna:
+
+https://drive.google.com/file/d/159wtyAtNFrx_73dcqm9JmqImqam9QGVG/view?usp=drive_link
+
+e assim seguimos, criamos mais uma coluna chamada endereco para armazenar o endereço do funcionário.
+
+Agora usando o conceito da moodelagem de dados, nós teriamos que criar uma nova coluna para dependentes, porém com a modelagem em vez de colocar tudo na mesma tabela, nós criamos uma nova tabela, vamos pensar o seguinte, quando existe a relação de 1 para 1 em uma tabela relacional ou 1 para 0 podemos criar uma coluna na mesma tabela de 1 para n não é recomendável criar uma nova coluna, por exemplo de dependentes, caso nós criarmos uma coluna para dependentes um funcionário pode ter por exemplo 5 dependentes, e todos vão ter nome diferente, idades diferentes e outros dados diferentes, ou até tem pessoas que não tem nenhum dependente, inutilizando aquela coluna no caso, por isso vamos criar uma nova tabela só para dependentes. Vamos fazer o mesmo procedimento:
+
+new table e o restante é o mesmo processo
+vamos criar uma coluna também nessa tabela de dependentes chamado nomedependente varchar(30) not null
+
+e agora vamos fazer a relação entre as tabelas, para isso clicamos do lado direito da tela no sinal de + , e vamos escolher a opção "Nova relação não identificada", clicamos na coluna nomefuncionario que vai ter relação com a tabela dependentes e clicamos em cima da tabela dependentes, vai ficar dessa forma igual o print:
+
+https://drive.google.com/file/d/1VVnkhzBaX1UZg9K2pyZPH43gFlWuZhJB/view?usp=drive_link
+
+e observe que ele na tabela dependentes ele vai virar uma FK foreign key
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aula 36 - Modelagem de dados e Ferramenta CASE, continuação
+
+nessa aula vamos aumentar mais nossas tabelas, vamos adicionar uma tabela chamado cargo
+
+colunas:
+
+idcargo: inteiro not null [PK]
+nomecargo: VARCHAR(20) NOT NULL
+
+vamos com essa tabela armazenar o cargo do funcionário, com essa tabela conseguimos clarear um pouco o conceito de se separar informações entre tabelas, por exemplo, um funcionário tem um cargo, e a pergunta contrária, um cargo tem só um funcionário ou um cargo pode perceber a vários funcionários, ai que está a questão, por isso criamos mais uma tabela só de funcionários, relação 1 para N.
+
+após essa criação vamos relacionar da forma inversa, clicamos no sinal de + novamente só que agora clicamos no idcargo primeiro e depois na tabela funcionario, conforme print:
+
+https://drive.google.com/file/d/13oiLPr9PoT9fz2kT5PaGkPXaDvD1D-rh/view?usp=drive_link
+
+com essa relação, quando você for pesquisar qual o cargo do funcionário, ele não vai ter armazenado o cargo inteiro escrito e sim vai ter o id da tabela cargo deixando o banco menor e ganhando performance, o banco vai saber que pelo id do cargo qual é o cargo.
+
+se a relação entre tabelas fosse de n para n, ai teria que criar uma tabela no meio, chamado de tabela associativa
+
+e também vamos adicionar uma tabela auxiliar com relação do funcionário de 1 para 1 só para mostrar como é, vamos criar a tabela
+
+auxifunc
+
+com a coluna1: varchar not null
+
+para fazer relação direta agora clicamos no sinal de + na outra opção relacionamento identificado, segue como ficou o print:
+
+https://drive.google.com/file/d/1C7o4g9TQ6dYPO5pghbdHpnmWhHhwbVq2/view?usp=drive_link
+
+e também temos que alterar a relação de 1 para 1, para isso clicamos na linnha laranja 2 vezes e deixamos setados da seguinte forma:
+
+https://drive.google.com/file/d/1ZUm8Mbza-kCNV15RzfpgcG1qYXigVdfm/view?usp=drive_link
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Aula 37 - Modelagem de dados e Ferramenta CASE,continuação
+
