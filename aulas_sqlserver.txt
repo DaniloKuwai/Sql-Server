@@ -351,7 +351,7 @@ Agora vamos transformar esse modelo de dados em tabelas dentro do SQL, vamos em 
 
 na tela que abrir escolher o arquivo que criamos de conexão com o banco e deixar sql server 2005, quando executar ele vai apresentar um erro falando que não é permitido colunas com o mesmo nome, porém na verdade para termos de banco de dados não tem problema, porquê na verdade o que ele reclama são primary keys, porém para executar vamos renomear os nomes para não ter repetido e depois vamos dar um ok, quando estiver tudo ok para executar vai aparecer essa tela:
 
-<a>https://drive.google.com/file/d/1dj0ru5klN6lOYOAxn7pOjtK6kBACfZwr/view?usp=drive_link<a>
+<a href="#">https://drive.google.com/file/d/1dj0ru5klN6lOYOAxn7pOjtK6kBACfZwr/view?usp=drive_link</a>
 
 
 
