@@ -351,7 +351,12 @@ Agora vamos transformar esse modelo de dados em tabelas dentro do SQL, vamos em 
 
 na tela que abrir escolher o arquivo que criamos de conexão com o banco e deixar sql server 2005, quando executar ele vai apresentar um erro falando que não é permitido colunas com o mesmo nome, porém na verdade para termos de banco de dados não tem problema, porquê na verdade o que ele reclama são primary keys, porém para executar vamos renomear os nomes para não ter repetido e depois vamos dar um ok, quando estiver tudo ok para executar vai aparecer essa tela:
 
-<a href="#">https://drive.google.com/file/d/1dj0ru5klN6lOYOAxn7pOjtK6kBACfZwr/view?usp=drive_link</a>
+https://drive.google.com/file/d/1dj0ru5klN6lOYOAxn7pOjtK6kBACfZwr/view?usp=drive_link
 
+se apareceu a tela, pode dar um executar, que ele vai ter criado já as tabelas nesse banco, vai ficar dessa forma no banco de dados:
 
+https://drive.google.com/file/d/14pqQHkjk6OS3897jVwUbdPXzEvE6yTgP/view?usp=drive_link
 
+****************************************************************Seção 5****************************************************************************************************
+
+aula 38 - Criando nosso banco de dados de trabalho, filegroup, files e tabelas com sql
