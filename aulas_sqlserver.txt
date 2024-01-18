@@ -335,3 +335,23 @@ https://drive.google.com/file/d/1ZUm8Mbza-kCNV15RzfpgcG1qYXigVdfm/view?usp=drive
 
 Aula 37 - Modelagem de dados e Ferramenta CASE,continuação
 
+agora vamos integrar direto o sql power architect com o banco de dados, fazendo ele gerar os bancos que nós criamos, porém antes de fazer a conexão, devemos instalar caso não estejamos no servidor o jdbc que está na pasta e vamos em:
+
+file -> user preference -> na guia local jdbc drivers -> escolhemos o sql server 2008 e add jar, vamos na pasta do sqljdbc_6.0 e adicionamos o .jar ele vai ser o driver de conexão do banco de dados, se não ele dá erro.
+
+Após isso podemos fazer a conexão indo em:
+
+connections -> add source connection -> new connection, vamos criar nossa conexão, vai ficar com a seguinte configuração:
+
+https://drive.google.com/file/d/13DqaWi-nuA_dYaoQGELpYkiRebVcPt45/view?usp=drive_link
+
+após configurar, dar um testar conexão ele tem que aparecer com sucesso.
+
+Agora vamos transformar esse modelo de dados em tabelas dentro do SQL, vamos em tools -> forward enginner
+
+na tela que abrir escolher o arquivo que criamos de conexão com o banco e deixar sql server 2005, quando executar ele vai apresentar um erro falando que não é permitido colunas com o mesmo nome, porém na verdade para termos de banco de dados não tem problema, porquê na verdade o que ele reclama são primary keys, porém para executar vamos renomear os nomes para não ter repetido e depois vamos dar um ok, quando estiver tudo ok para executar vai aparecer essa tela:
+
+<a>https://drive.google.com/file/d/1dj0ru5klN6lOYOAxn7pOjtK6kBACfZwr/view?usp=drive_link<a>
+
+
+
