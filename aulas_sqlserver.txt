@@ -402,6 +402,41 @@ se der executado com sucesso, ia aparecer o motivo do erro.
 
 Após isso na minha master, vai ser criado o banco de dados clientes
 
+- >Agora vamos criar um novo filegroup chamado CLIENTESANTIGOSFG
 
+ALTER DATABASE CLIENTES
+ADD FILEGROUP CLIENTESANTIGOSFG
+GO
+
+-> Agora vamos criar um novo filegroup CLIENTESFUTUROSFG
+
+ALTER DATABASE CLIENTES
+ADD FILEGROUP CLIENTESFUTUROSFG
+GO
+
+-> Agora vamos criar os files
+
+ALTER DATABASE CLIENTES
+
+ADD FILE
+
+(
+
+	NAME = CLIENTESANTIGOS,
+	FILENAME = 'P:\DATA\CLIENTESANTIGOS.NDF' ,
+	SIZE = 5MB,
+	MAXSIZE = 100MB ,
+	FILEGROWTH = 5MB
+
+)
+
+TO FILEGROUP CLIENTESANTIGOSFG;
+GO
+
+Agora vamos explicar linha a linha:
+
+ALTER DATABASE CLIENTES -> Para iniciar os comandos damos o alter database clientes para indicar que vamos fazer a alteração nesse banco de dados
+
+ADD FILE -> 
 
 
