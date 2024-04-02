@@ -360,3 +360,48 @@ https://drive.google.com/file/d/14pqQHkjk6OS3897jVwUbdPXzEvE6yTgP/view?usp=drive
 ****************************************************************Seção 5****************************************************************************************************
 
 aula 38 - Criando nosso banco de dados de trabalho, filegroup, files e tabelas com sql
+
+Para criar um banco de dados, primeiramente eu tenho que estar conectado na master. Ou dar o comando logo no ínicio. Ou usar o :
+
+Use master,
+GO
+
+Agora vamos criar o nosso banco de dados, dando o comando:
+
+CREATE DATABASE [CLIENTES]
+
+ON PRIMARY
+
+(NAME= N'CLIENTESATUAIS', FILENAME = N'P:\data\CLIENTES.mdf' , SIZE = 10240KB, FILEGROWTH = 65536KB)
+
+LOG ON
+
+(NAME = N´CLIENTES_LOG', FILENAME = N'L:\log\CLIENTES_log.ldf', SIZE = 8192KB , FILEGROWTH = 65536KB)
+
+GO
+
+
+
+agora vamos a explicação de cada comando
+
+* CREATE DATABASE [CLIENTES] -> Vai fazer a criação da base clientes
+
+* ON PRIMARY -> vai colocar esse banco no grupo primário(primary key)
+
+* (NAME= N'CLIENTESATUAIS', FILENAME = N'P:\data\CLIENTES.mdf' , SIZE = 10240KB, FILEGROWTH = 65536KB) -> O nome lógico, Esse vai ser o file físico, que vai estar na unidade p, tamanho dele, e o crescimento dele. 
+
+* LOG ON -> Esse campo define que tudo o que vier abaixo vai ter relação com arquivo de log
+
+* (NAME = N´CLIENTES_LOG', FILENAME = N'L:\log\CLIENTES_log.ldf', SIZE = 8192KB , FILEGROWTH = 65536KB) -> vai ser o nome do lógico do log, onde vai estar o log, o tamanho, e o crescimento do arquivo de log.
+
+GO -> é para executar a função
+
+ai seleciona esse bloco e dá um execute, vai executar os comandos.
+
+se der executado com sucesso, ia aparecer o motivo do erro.
+
+Após isso na minha master, vai ser criado o banco de dados clientes
+
+
+
+
