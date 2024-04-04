@@ -433,10 +433,100 @@ ADD FILE
 TO FILEGROUP CLIENTESANTIGOSFG;
 GO
 
-Agora vamos explicar linha a linha:
-
-ALTER DATABASE CLIENTES -> Para iniciar os comandos damos o alter database clientes para indicar que vamos fazer a alteração nesse banco de dados
-
-ADD FILE -> 
 
 
+-> Agora vamos criar um novo filegroup
+
+ALTER DATABASE CLIENTES
+
+ADD FILE
+
+(
+    NAME = CLIENTESFUTUROS,
+    FILENAME = 'P:\DATA\CLIENTESFUTUROS.NDF',
+    SIZE = 5MB,
+    MAXSIZE = 100MB,
+    FILEGROWTH = 5MB
+
+)
+
+TO FILEGROUP CLIENTESFUTUROSFG;
+GO
+
+
+->> Agora vamos criar nossas tabelas
+
+Antes ter atenção que com os comandos anteriores estamos executando procedimentos dentro da master, porquê logo no ínicio usamos o comando:
+
+Use master,
+GO
+
+e fazer a criação da tabela dentro da master não é o recomendado, então primeiro vamos alterar para executar os comandos no file clientes
+
+USE clientes
+GO
+
+
+CREATE TABLE Clientes
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome varchar(50),
+ Cidade varchar(15),
+ UF varchar(2))
+
+aqui não indicamos em qual filegroup essa tabela clientes vai pertencer, então no caso ele vai pertencer ao filegroup PRIMARY que estava como default.
+
+
+-> Agora vamos criar uma nova tabela, já direcionando para um filegroup
+
+CREATE TABLE ClientesFuturos
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome nvarchar(50),
+ Cidade nvarchar(15),
+ UF nvarchar(2))
+ON CLIENTESFUTUROSFG
+
+CREATE TABLE ClientesAntigos
+
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome nvarchar(50),
+ Cidade nvarchar(15),
+ UF nvarchar(2))
+ON CLIENTESANTIGOSFG
+
+Para deletar tabela
+
+drop table ClientesAntigos;
+drop table ClientesFuturos;
+drop table Clientes;
+
+Agora quero deletar os 2 files que nós criamos
+
+ALTER DATABASE CLIENTES
+REMOVE FILE CLIENTESANTIGOS
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILE CLIENTESFUTUROS
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILEGROUP CLIENTESANTIGOSFG
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILEGROUP CLIENTESFUTUROSFG
+GO
+
+AGORA VOU DELETAR O BANCO DE DADOS
+
+Porém eu não posso deletar o banco que eu estou conectado
+
+então voltamos para a master
+
+USE MASTER
+GO
+
+conectamos no banco MASTER e depois podemos executar o comando
+
+DROP DATABASE CLIENTES
+GO
