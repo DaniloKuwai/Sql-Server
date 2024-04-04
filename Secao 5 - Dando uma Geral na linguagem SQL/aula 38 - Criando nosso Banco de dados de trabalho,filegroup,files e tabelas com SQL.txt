@@ -1,0 +1,20 @@
+aula 38 - Criando nosso banco de dados de trabalho, filegroup, files e tabelas com sql
+
+Para criar um banco de dados, primeiramente eu tenho que estar conectado na master. Ou dar o comando logo no ínicio. Ou usar o :
+
+Use master,
+GO
+
+Agora vamos criar o nosso banco de dados, dando o comando:
+
+CREATE DATABASE [CLIENTES]
+
+ON PRIMARY
+
+(NAME= N'CLIENTESATUAIS', FILENAME = N'P:\data\CLIENTES.mdf' , SIZE = 10240KB, FILEGROWTH = 65536KB)
+
+LOG ON
+
+(NAME = N´CLIENTES_LOG', FILENAME = N'L:\log\CLIENTES_log.ldf', SIZE = 8192KB , FILEGROWTH = 65536KB)
+
+GO
