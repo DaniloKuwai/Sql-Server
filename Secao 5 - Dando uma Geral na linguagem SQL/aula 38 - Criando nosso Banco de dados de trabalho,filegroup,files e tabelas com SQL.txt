@@ -18,3 +18,154 @@ LOG ON
 (NAME = N´CLIENTES_LOG', FILENAME = N'L:\log\CLIENTES_log.ldf', SIZE = 8192KB , FILEGROWTH = 65536KB)
 
 GO
+
+
+
+agora vamos a explicação de cada comando
+
+* CREATE DATABASE [CLIENTES] -> Vai fazer a criação da base clientes
+
+* ON PRIMARY -> vai colocar esse banco no grupo primário(primary key)
+
+* (NAME= N'CLIENTESATUAIS', FILENAME = N'P:\data\CLIENTES.mdf' , SIZE = 10240KB, FILEGROWTH = 65536KB) -> O nome lógico, Esse vai ser o file físico, que vai estar na unidade p, tamanho dele, e o crescimento dele. 
+
+* LOG ON -> Esse campo define que tudo o que vier abaixo vai ter relação com arquivo de log
+
+* (NAME = N´CLIENTES_LOG', FILENAME = N'L:\log\CLIENTES_log.ldf', SIZE = 8192KB , FILEGROWTH = 65536KB) -> vai ser o nome do lógico do log, onde vai estar o log, o tamanho, e o crescimento do arquivo de log.
+
+GO -> é para executar a função
+
+ai seleciona esse bloco e dá um execute, vai executar os comandos.
+
+se der executado com sucesso, ia aparecer o motivo do erro.
+
+Após isso na minha master, vai ser criado o banco de dados clientes
+
+- >Agora vamos criar um novo filegroup chamado CLIENTESANTIGOSFG
+
+ALTER DATABASE CLIENTES
+ADD FILEGROUP CLIENTESANTIGOSFG
+GO
+
+-> Agora vamos criar um novo filegroup CLIENTESFUTUROSFG
+
+ALTER DATABASE CLIENTES
+ADD FILEGROUP CLIENTESFUTUROSFG
+GO
+
+-> Agora vamos criar os files
+
+ALTER DATABASE CLIENTES
+
+ADD FILE
+
+(
+
+	NAME = CLIENTESANTIGOS,
+	FILENAME = 'P:\DATA\CLIENTESANTIGOS.NDF' ,
+	SIZE = 5MB,
+	MAXSIZE = 100MB ,
+	FILEGROWTH = 5MB
+
+)
+
+TO FILEGROUP CLIENTESANTIGOSFG;
+GO
+
+
+
+-> Agora vamos criar um novo filegroup
+
+ALTER DATABASE CLIENTES
+
+ADD FILE
+
+(
+    NAME = CLIENTESFUTUROS,
+    FILENAME = 'P:\DATA\CLIENTESFUTUROS.NDF',
+    SIZE = 5MB,
+    MAXSIZE = 100MB,
+    FILEGROWTH = 5MB
+
+)
+
+TO FILEGROUP CLIENTESFUTUROSFG;
+GO
+
+
+->> Agora vamos criar nossas tabelas
+
+Antes ter atenção que com os comandos anteriores estamos executando procedimentos dentro da master, porquê logo no ínicio usamos o comando:
+
+Use master,
+GO
+
+e fazer a criação da tabela dentro da master não é o recomendado, então primeiro vamos alterar para executar os comandos no file clientes
+
+USE clientes
+GO
+
+
+CREATE TABLE Clientes
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome varchar(50),
+ Cidade varchar(15),
+ UF varchar(2))
+
+aqui não indicamos em qual filegroup essa tabela clientes vai pertencer, então no caso ele vai pertencer ao filegroup PRIMARY que estava como default.
+
+
+-> Agora vamos criar uma nova tabela, já direcionando para um filegroup
+
+CREATE TABLE ClientesFuturos
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome nvarchar(50),
+ Cidade nvarchar(15),
+ UF nvarchar(2))
+ON CLIENTESFUTUROSFG
+
+CREATE TABLE ClientesAntigos
+
+(ClienteID int IDENTITY PRIMARY KEY,
+ Nome nvarchar(50),
+ Cidade nvarchar(15),
+ UF nvarchar(2))
+ON CLIENTESANTIGOSFG
+
+Para deletar tabela
+
+drop table ClientesAntigos;
+drop table ClientesFuturos;
+drop table Clientes;
+
+Agora quero deletar os 2 files que nós criamos
+
+ALTER DATABASE CLIENTES
+REMOVE FILE CLIENTESANTIGOS
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILE CLIENTESFUTUROS
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILEGROUP CLIENTESANTIGOSFG
+GO
+
+ALTER DATABASE CLIENTES
+REMOVE FILEGROUP CLIENTESFUTUROSFG
+GO
+
+AGORA VOU DELETAR O BANCO DE DADOS
+
+Porém eu não posso deletar o banco que eu estou conectado
+
+então voltamos para a master
+
+USE MASTER
+GO
+
+conectamos no banco MASTER e depois podemos executar o comando
+
+DROP DATABASE CLIENTES
+GO
